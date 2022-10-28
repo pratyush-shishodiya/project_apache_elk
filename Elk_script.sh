@@ -12,7 +12,7 @@ fi
 
 
 #function for dependency check
-dep_check_deb(){
+Check_java(){
     java -version
     if [ $? -ne 0 ]      #checking java is installed in system or not
         then
@@ -23,16 +23,7 @@ dep_check_deb(){
     fi
 }
 
-dep_check_rpm(){
-    java -version
-    if [ $? -ne 0 ]      #checking java is installed in system or not
-        then
-            sudo brew install jre-1.7.0-openjdk -y  #if java is not install in the system,it will install with the help of this command and elk require 7 ot 7+ version of java for setup.
-    elif[ "`java -version 2> /tmp/version && awk '/version/ { gsub(/"/, "", $NF); print ( $NF < 1.7 ) ? "YES" : "NO" }' /tmp/version`" == "YES" ]
-        then    
-            brew install install jre-1.7.0-openjdk -y
-    fi
-}
+
 
 
 install_elastic(){
@@ -79,6 +70,7 @@ system=1
 
 if [ $system -et 1]
     then
+        Check_java
         install_elastic
         install_kibana
         install_logstash
